@@ -11,8 +11,6 @@ sealed class UseCaseResult<T> {
 
         class RepositoryFailure<T> : UseCaseResult<T>()
     }
-
-    open class RefinedResult<T> : UseCaseResult<T>()
 }
 
 fun <T> UseCase.success(value: T): UseCaseResult<T> = UseCaseResult.Success(value)
@@ -30,6 +28,13 @@ fun <T> UseCase.generalError(failure: RepositoryResult.Fail.GenericError<T>): Us
 suspend fun <T> UseCaseResult<T>.onSuccess(block: suspend (T) -> Unit): UseCaseResult<T> {
     if (this is UseCaseResult.Success) {
         block(this.value)
+    }
+    return this
+}
+
+suspend fun <T> UseCaseResult<T>.onFail(block: suspend () -> Unit): UseCaseResult<T> {
+    if (this !is UseCaseResult.Success) {
+        block()
     }
     return this
 }

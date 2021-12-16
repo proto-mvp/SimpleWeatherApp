@@ -11,6 +11,8 @@ fun WeatherCard(weatherResponse: WeatherResponse) {
     Card {
         Column {
             Text(text = weatherResponse.main.temp.toString())
+
+            Text(text = weatherResponse.main.tempMax.toString())
         }
     }
 }
