@@ -77,6 +77,7 @@ dependencies {
     implementation ComposeLibs.MATERIAL
     implementation ComposeLibs.UI_TOOLING
     implementation ComposeLibs.VIEWMODEL
+    implementation ComposeLibs.COIL
     androidTestImplementation ComposeLibs.UI_TEST
 
 

@@ -57,7 +57,9 @@ abstract class BaseViewModel<
     /**
      * Provides easy read only access to the current state
      */
-    protected val currentState = stateFloW.value
+    protected fun currentState(): ViewModelState? {
+        return stateFloW.value
+    }
 
     protected fun S.updateState() = apply { update(this) }
 

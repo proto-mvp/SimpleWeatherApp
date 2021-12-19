@@ -28,6 +28,8 @@ data class WeatherResponse(
     val id: Int,
     @SerialName("name")
     val name: String,
+    @SerialName(value = "timezone")
+    val timeZone: Int,
     @SerialName("cod")
     val cod: Int
 ) {
@@ -62,7 +64,9 @@ data class WeatherResponse(
         @SerialName("temp_min")
         val tempMin: Double,
         @SerialName("temp_max")
-        val tempMax: Double
+        val tempMax: Double,
+        @SerialName("feels_like")
+        val feelsLike: Double
     )
 
     @Serializable
@@ -82,9 +86,9 @@ data class WeatherResponse(
     @Serializable
     data class Sys(
         @SerialName("type")
-        val type: Int,
+        val type: Int? = null,
         @SerialName("id")
-        val id: Int,
+        val id: Int? = null,
         @SerialName("message")
         val message: Double? = null,
         @SerialName("country")

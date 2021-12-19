@@ -16,8 +16,10 @@ import com.protomvp.simpleweatherapp.ui.theme.SimpleWeatherAppTheme
 import com.protomvp.simpleweatherapp.weatherinformation.WeatherInformationIntent
 import com.protomvp.simpleweatherapp.weatherinformation.WeatherInformationState
 import com.protomvp.simpleweatherapp.weatherinformation.WeatherInformationViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class MainFragment @Inject constructor(
     private val viewModelFactory: ViewModelProvider.Factory
 ) : Fragment(R.layout.fragment_first) {
@@ -31,7 +33,8 @@ class MainFragment @Inject constructor(
         binding = FragmentFirstBinding.bind(view)
 
         lifecycleScope.launchWhenStarted {
-            viewModel.sendIntent(WeatherInformationIntent.NewCityRequest("London,UK"))
+            viewModel.start()
+//            viewModel.sendIntent(WeatherInformationIntent.NewCityRequest("London,UK"))
         }
         bind {
             composeView.setContent {
@@ -41,7 +44,9 @@ class MainFragment @Inject constructor(
                         val state by viewModel.getStateFlow()
                             .collectAsState(WeatherInformationState.Introduction)
 
-                        WeatherResultsScreen(state = state)
+                        WeatherResultsScreen(state = state) {
+                            viewModel.sendIntent(WeatherInformationIntent.NewCityRequest(query = it))
+                        }
                     }
                 }
             }

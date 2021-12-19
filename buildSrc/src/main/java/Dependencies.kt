@@ -83,4 +83,5 @@ object ComposeLibs {
     const val UI_TEST = "androidx.compose.ui:ui-test-junit4:1.0.1"
     const val MATERIAL_THEME_ADAPTER = "com.google.android.material:compose-theme-adapter:1.0.5"
     const val APPCOMPAT_THEME_ADAPTER = "com.google.accompanist:accompanist-appcompat-theme:0.16.0"
+    const val COIL = "io.coil-kt:coil-compose:1.4.0"
 }
