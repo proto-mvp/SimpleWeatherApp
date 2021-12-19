@@ -57,8 +57,9 @@ abstract class BaseViewModel<
     /**
      * Provides easy read only access to the current state
      */
-    protected fun currentState(): ViewModelState? {
-        return stateFloW.value
+    @Suppress("UNCHECKED_CAST")
+    protected fun currentState(): S? {
+        return stateFloW.value as? S
     }
 
     protected fun S.updateState() = apply { update(this) }

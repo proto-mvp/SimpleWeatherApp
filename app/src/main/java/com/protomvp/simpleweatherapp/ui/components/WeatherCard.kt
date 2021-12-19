@@ -31,7 +31,7 @@ fun Int.timeStampToDate(timeZoneDiff: Int = 0): String =
 
 
 @Composable
-fun WeatherCard(information: CityWeatherInformation?) {
+fun WeatherCard(information: CityWeatherInformation?, addFavourite: (String) -> Unit) {
     if (information == null)
         return
     Card(
@@ -56,7 +56,7 @@ fun WeatherCard(information: CityWeatherInformation?) {
                     text = information.cityName + " , " + information.cityInformation.country,
                     style = Typography.h4
                 )
-                OutlinedButton(onClick = { }) {
+                OutlinedButton(onClick = { addFavourite(information.cityName) }) {
                     Icon(Icons.Filled.Favorite, contentDescription = "Add to favourites")
                 }
             }

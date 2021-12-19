@@ -51,7 +51,7 @@ class NetworkClient @Inject constructor(
     private fun logger(): Logger {
         return object : Logger {
             override fun log(message: String) {
-                Log.d("SimpleDemoApp:Net:Logger", message)
+                Log.d("SimpleWeatherApp:Net:Logger", message)
             }
         }
     }

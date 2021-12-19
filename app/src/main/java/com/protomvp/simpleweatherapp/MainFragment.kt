@@ -14,6 +14,7 @@ import com.protomvp.simpleweatherapp.databinding.FragmentFirstBinding
 import com.protomvp.simpleweatherapp.ui.screens.WeatherResultsScreen
 import com.protomvp.simpleweatherapp.ui.theme.SimpleWeatherAppTheme
 import com.protomvp.simpleweatherapp.weatherinformation.WeatherInformationIntent
+import com.protomvp.simpleweatherapp.weatherinformation.WeatherInformationSideEffect
 import com.protomvp.simpleweatherapp.weatherinformation.WeatherInformationState
 import com.protomvp.simpleweatherapp.weatherinformation.WeatherInformationViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,19 +35,29 @@ class MainFragment @Inject constructor(
 
         lifecycleScope.launchWhenStarted {
             viewModel.start()
-//            viewModel.sendIntent(WeatherInformationIntent.NewCityRequest("London,UK"))
         }
         bind {
             composeView.setContent {
                 SimpleWeatherAppTheme {
-                    // A surface container using the 'background' color from the theme
                     Surface(color = MaterialTheme.colors.background) {
                         val state by viewModel.getStateFlow()
                             .collectAsState(WeatherInformationState.Introduction)
+                        val sideEffect by viewModel.getSideEffectFlow()
+                            .collectAsState(initial = WeatherInformationSideEffect.Loading)
 
-                        WeatherResultsScreen(state = state) {
-                            viewModel.sendIntent(WeatherInformationIntent.NewCityRequest(query = it))
-                        }
+                        WeatherResultsScreen(state = state,
+                            sideEffect = sideEffect,
+                            sendAction = {
+                                viewModel.sendIntent(WeatherInformationIntent.NewCityRequest(query = it))
+                            },
+                            addFavouriteAction = {
+                                viewModel.sendIntent(
+                                    WeatherInformationIntent.AddCityFavourite(it)
+                                )
+                            },
+                            removeFavouriteAction = {
+                                viewModel.sendIntent(WeatherInformationIntent.RemoveCityFavourite(it))
+                            })
                     }
                 }
             }

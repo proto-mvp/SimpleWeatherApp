@@ -36,6 +36,7 @@ object SupportLibs {
         "androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION}"
     const val NAVIGATION_UI_KTX = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION}"
     const val LIFECYCLE_KTX = "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
+    const val DATASTORE = "androidx.datastore:datastore-preferences:1.0.0"
 }
 
 object TestingLib {

@@ -24,6 +24,8 @@ fun <T> UseCase.generalFailure(failure: RepositoryResult.Fail): UseCaseResult<T>
 fun <T> UseCase.generalError(failure: RepositoryResult.Fail.GenericError<T>): UseCaseResult<T> =
     UseCaseResult.Fail.RepositoryFailure()
 
+fun <T> UseCase.storageFailure(failure: RepositoryResult.Fail.StorageFail<T>): UseCaseResult<T> =
+    UseCaseResult.Fail.RepositoryFailure()
 
 suspend fun <T> UseCaseResult<T>.onSuccess(block: suspend (T) -> Unit): UseCaseResult<T> {
     if (this is UseCaseResult.Success) {
@@ -38,3 +40,11 @@ suspend fun <T> UseCaseResult<T>.onFail(block: suspend () -> Unit): UseCaseResul
     }
     return this
 }
+
+suspend fun <T, R> UseCaseResult<T>.cast(onSuccess: suspend (T) -> R, onFail: () -> R): R {
+    return if (this is UseCaseResult.Success) {
+        onSuccess(this.value)
+    } else
+        onFail()
+}
+
