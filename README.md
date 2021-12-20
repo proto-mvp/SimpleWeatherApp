@@ -14,6 +14,12 @@
 
 - The app is storing locally the last search result, and showing it in case of no network connection
 
+
+- ### Known issues
+  - The web request for lat,lon when the app starts, returns some crazy numbers. I have checked this
+    more than once. e.g. returning 239 degrees C, or something similar. There is nothing wrong with
+    the data manipulation, it is just the web response.
+
 ## Tech Stack
 
 - Android Views, and JetPack Compose. Assembled in a way that would fit in an existing application
@@ -35,7 +41,11 @@
 
 - Clean Architecture for domain layer
 
-- MVI for presentation . States, Intents, Reducers, orchestrated by VMs
+- MVI for presentation . States, Intents, SideEffects, Reducers, orchestrated by VMs. The view, in
+  this case a Fragment hosting composables, adapts rendering to a State emitted when an Intent has
+  been sent, and translated to a State from a Reducer. A SideEffect can be emitted also, in the
+  cases where we want to have a UI change such as a toast message, dialog, navigation action
+  etc.Anything that won't affect the current state.
 
 - Single Activity hosting a fragment for the demo purposes, but can easily support any number
 
