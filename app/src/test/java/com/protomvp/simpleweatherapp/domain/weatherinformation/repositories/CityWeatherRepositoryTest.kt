@@ -1,9 +1,11 @@
 package com.protomvp.simpleweatherapp.domain.weatherinformation.repositories
 
 import com.protomvp.simpleweatherapp.common.domain.RepositoryResult
+import com.protomvp.simpleweatherapp.common.network.ApiErrorCodes
 import com.protomvp.simpleweatherapp.common.network.ApiResult
 import com.protomvp.simpleweatherapp.domain.weatherinformation.model.CityWeatherInformation
 import com.protomvp.simpleweatherapp.domain.weatherinformation.model.mappers.WeatherResponseMapper
+import com.protomvp.simpleweatherapp.domain.weatherinformation.repositories.localsource.CachedWeatherInfoService
 import com.protomvp.simpleweatherapp.domain.weatherinformation.repositories.networksource.CurrentWeatherService
 import io.mockk.*
 import kotlinx.coroutines.test.runBlockingTest
@@ -16,10 +18,16 @@ class CityWeatherRepositoryTest {
     private lateinit var subject: CityWeatherRepository
     private val currentWeatherService: CurrentWeatherService = mockk()
     private val weatherResponseMapper: WeatherResponseMapper = mockk()
+    private val cachedWeatherInfoService: CachedWeatherInfoService = mockk()
 
     @Before
     fun setUp() {
-        subject = CityWeatherRepository(currentWeatherService, weatherResponseMapper)
+        subject = CityWeatherRepository(
+            currentWeatherService,
+            weatherResponseMapper,
+            cachedWeatherInfoService
+        )
+        coEvery { cachedWeatherInfoService.save(any()) } returns RepositoryResult.Success(Unit)
     }
 
     private val input = "A"
@@ -33,12 +41,14 @@ class CityWeatherRepositoryTest {
         )
 
         val result = subject.getWeather(input)
-        coVerify { currentWeatherService.getWeatherForCity(input) }
         expectThat(result).isA<RepositoryResult.Success<CityWeatherInformation>>()
+
+        coVerify { currentWeatherService.getWeatherForCity(input) }
+        coVerify { cachedWeatherInfoService.save(any()) }
     }
 
     @Test
-    fun `getWeather failed call`() = runBlockingTest {
+    fun `getWeather failed call and it is not a network error`() = runBlockingTest {
         every { weatherResponseMapper.invoke(any()) } returns mockk()
         coEvery { currentWeatherService.getWeatherForCity(any()) } returns ApiResult.Fail(401)
 
@@ -46,5 +56,22 @@ class CityWeatherRepositoryTest {
 
         expectThat(result).isA<RepositoryResult.Fail.NetworkFail<*, *>>()
         verify { weatherResponseMapper wasNot Called }
+        verify { cachedWeatherInfoService wasNot Called }
+    }
+
+    @Test
+    fun `getWeather failed call and it is  a network error`() = runBlockingTest {
+
+        every { weatherResponseMapper.invoke(any()) } returns mockk()
+        coEvery { currentWeatherService.getWeatherForCity(any()) } returns ApiResult.Fail(
+            ApiErrorCodes.NoNetwork
+        )
+        coEvery { cachedWeatherInfoService.read() } returns RepositoryResult.Success(mockk())
+
+        val result = subject.getWeather(input)
+
+        expectThat(result).isA<RepositoryResult.Success<CityWeatherInformation>>()
+        coVerify { currentWeatherService.getWeatherForCity(input) }
+        coVerify { cachedWeatherInfoService.save(any()) wasNot Called }
     }
 }

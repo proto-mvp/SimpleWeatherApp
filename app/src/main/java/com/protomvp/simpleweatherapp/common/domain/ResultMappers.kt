@@ -32,6 +32,15 @@ inline fun <reified T, reified F> Repository.repositoryStorageResult(
     }
 }
 
+inline fun <reified T> Repository.repositoryStorageResultSimple(
+    block: () -> StorageResult<T>,
+): RepositoryResult<T> {
+    return when (val result = block()) {
+        is StorageResult.Success -> success(result.value)
+        is StorageResult.Fail -> storageFail(result)
+    }
+}
+
 inline fun <reified T> UseCase.useCaseResult(
     block: () -> RepositoryResult<T>
 ): UseCaseResult<T> {
