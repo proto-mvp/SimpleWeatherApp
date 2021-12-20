@@ -36,16 +36,6 @@ fun WeatherResultsScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         if (state is WeatherInformationState.ScreenInfo) {
-//            listOf(
-//                "London",
-//                "Paris",
-//                "Athens",
-//                "Budapest",
-//                "London",
-//                "Paris",
-//                "Athens",
-//                "Budapest"
-//            )
             FavouriteCities(
                 cities = state.presentationModel.favouritePlaces,
                 onChooseCity = { sendAction(it) },
@@ -56,8 +46,7 @@ fun WeatherResultsScreen(
 
         when (state) {
             WeatherInformationState.FailedGettingResults -> Text(text = "Something went wrong")
-            is WeatherInformationState.NewWeatherInfo -> WeatherCard(information = state.weatherResponse,
-                {})
+
             WeatherInformationState.Introduction -> Text(text = "Type a city name")
             is WeatherInformationState.ScreenInfo -> WeatherCard(
                 information = state.presentationModel.cityWeatherInformation,

@@ -13,7 +13,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,7 +34,6 @@ fun FavouriteCities(
     } else
         Column {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Filled.Favorite, null, tint = Color.Blue)
                 Text(text = "Your Favourite Cities", style = Typography.h6)
             }
             Spacer(modifier = Modifier.padding(vertical = AppTheme.dimensions.paddingSmall))
@@ -59,17 +57,17 @@ private fun FavouritesList(
                 ),
                 elevation = 3.dp,
                 modifier = Modifier
-                    .height(60.dp)
-                    .width(100.dp)
-                    .padding(5.dp)
+                    .height(100.dp)
+                    .width(150.dp)
+                    .padding(AppTheme.dimensions.paddingSmaller)
                     .clickable(true) {
                         onChooseCity(item.city)
                     }) {
                 Column(
                     verticalArrangement = Arrangement.SpaceAround,
-                    modifier = Modifier.padding(AppTheme.dimensions.paddingSmaller)
+                    modifier = Modifier.padding(AppTheme.dimensions.paddingSmall)
                 ) {
-                    Text(text = item.city)
+                    Text(text = item.city, style = Typography.h6)
 
                     Box(
                         modifier = Modifier

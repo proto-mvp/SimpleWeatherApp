@@ -37,6 +37,8 @@ object SupportLibs {
     const val NAVIGATION_UI_KTX = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION}"
     const val LIFECYCLE_KTX = "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
     const val DATASTORE = "androidx.datastore:datastore-preferences:1.0.0"
+    const val LOCATION_LOCUS = "com.github.BirjuVachhani:locus-android:3.0.1"
+    const val GOOGLE_LOCATION = "com.google.android.gms:play-services-location:19.0.0"
 }
 
 object TestingLib {
@@ -85,4 +87,5 @@ object ComposeLibs {
     const val MATERIAL_THEME_ADAPTER = "com.google.android.material:compose-theme-adapter:1.0.5"
     const val APPCOMPAT_THEME_ADAPTER = "com.google.accompanist:accompanist-appcompat-theme:0.16.0"
     const val COIL = "io.coil-kt:coil-compose:1.4.0"
+    const val ACCOMPANIST_PERMISSIONS = "com.google.accompanist:accompanist-permissions:0.21.5-rc"
 }

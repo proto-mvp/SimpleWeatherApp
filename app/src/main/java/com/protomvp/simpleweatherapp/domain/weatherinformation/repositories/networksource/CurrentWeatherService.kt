@@ -14,4 +14,9 @@ class CurrentWeatherService @Inject constructor(
     suspend fun getWeatherForCity(city: String): ApiResult<WeatherResponse> = catchNetworkError {
         networkClient.getRequest(apiUrlQueryBuilder.createCityUrl(city))
     }
+
+    suspend fun getWeatherForLatLng(lat: String, lng: String): ApiResult<WeatherResponse> =
+        catchNetworkError {
+            networkClient.getRequest(apiUrlQueryBuilder.createLatLngUrl(lat, lng))
+        }
 }

@@ -20,19 +20,27 @@ class CityWeatherRepository @Inject constructor(
 
     suspend fun getWeather(city: String): RepositoryResult<CityWeatherInformation> =
         repositoryResult(mapper = { weatherResponseMapper(it) }) {
+            handleCaching { currentWeatherService.getWeatherForCity(city) }
+        }
 
-            var result = currentWeatherService.getWeatherForCity(city)
-            when (result) {
-                is ApiResult.Fail -> {
-                    result.noNetwork {
-                        when (val cachedResult = cachedWeatherInfoService.read()) {
-                            is RepositoryResult.Success -> result =
-                                ApiResult.Success(cachedResult.value, 201)
-                        }
+    suspend fun getWeather(lat: String, lon: String): RepositoryResult<CityWeatherInformation> =
+        repositoryResult(mapper = { weatherResponseMapper(it) }) {
+            handleCaching { currentWeatherService.getWeatherForLatLng(lat, lon) }
+        }
+
+    private suspend fun handleCaching(block: suspend () -> ApiResult<WeatherResponse>): ApiResult<WeatherResponse> {
+        var result = block()
+        when (result) {
+            is ApiResult.Fail -> {
+                result.noNetwork {
+                    when (val cachedResult = cachedWeatherInfoService.read()) {
+                        is RepositoryResult.Success -> result =
+                            ApiResult.Success(cachedResult.value, 201)
                     }
                 }
-                is ApiResult.Success -> cachedWeatherInfoService.save((result as ApiResult.Success<WeatherResponse>).value)
             }
-            return@repositoryResult result
+            is ApiResult.Success -> cachedWeatherInfoService.save((result as ApiResult.Success<WeatherResponse>).value)
         }
+        return result
+    }
 }

@@ -59,6 +59,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     implementation(SupportLibs.DATASTORE)
+    implementation(SupportLibs.LOCATION_LOCUS)
+    implementation(SupportLibs.GOOGLE_LOCATION)
 
     implementation(KotlinLibs.COROUTINES)
     implementation(KotlinLibs.COROUTINES_ANDROID)
@@ -79,6 +81,7 @@ dependencies {
     implementation ComposeLibs.UI_TOOLING
     implementation ComposeLibs.VIEWMODEL
     implementation ComposeLibs.COIL
+    implementation(ComposeLibs.ACCOMPANIST_PERMISSIONS)
     androidTestImplementation ComposeLibs.UI_TEST
 
 

@@ -13,24 +13,27 @@ import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isA
 
-class WeatherInformationUseCaseTest {
-    lateinit var subject: WeatherInformationUseCase
+class WeatherInformationByGpsUseCaseTest {
+
+    lateinit var subject: WeatherInformationByGpsUseCase
     private val cityWeatherRepository: CityWeatherRepository = mockk()
 
     @Before
     fun setUp() {
-        subject = WeatherInformationUseCase(cityWeatherRepository)
+        subject = WeatherInformationByGpsUseCase(cityWeatherRepository)
     }
 
     @Test
     fun `execute invokes repository`() = runBlockingTest {
-        val city = "test"
+        val coord = "test"
 
-        coEvery { cityWeatherRepository.getWeather(any()) } returns RepositoryResult.Success(mockk())
+        coEvery { cityWeatherRepository.getWeather(any(), any()) } returns RepositoryResult.Success(
+            mockk()
+        )
 
-        val result = subject.execute(city)
+        val result = subject.execute(coord, coord)
 
         expectThat(result).isA<UseCaseResult.Success<CityWeatherInformation>>()
-        coVerify { cityWeatherRepository.getWeather(city) }
+        coVerify { cityWeatherRepository.getWeather(coord, coord) }
     }
 }

@@ -8,12 +8,14 @@ import com.protomvp.simpleweatherapp.domain.weatherinformation.model.mappers.Wea
 import com.protomvp.simpleweatherapp.domain.weatherinformation.repositories.localsource.CachedWeatherInfoService
 import com.protomvp.simpleweatherapp.domain.weatherinformation.repositories.networksource.CurrentWeatherService
 import io.mockk.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 import strikt.api.expectThat
 import strikt.assertions.isA
 
+@ExperimentalCoroutinesApi
 class CityWeatherRepositoryTest {
     private lateinit var subject: CityWeatherRepository
     private val currentWeatherService: CurrentWeatherService = mockk()
@@ -73,5 +75,25 @@ class CityWeatherRepositoryTest {
         expectThat(result).isA<RepositoryResult.Success<CityWeatherInformation>>()
         coVerify { currentWeatherService.getWeatherForCity(input) }
         coVerify { cachedWeatherInfoService.save(any()) wasNot Called }
+    }
+
+    @Test
+    fun `getWeather by lat lng successful call`() = runBlockingTest {
+        every { weatherResponseMapper.invoke(any()) } returns mockk()
+        coEvery {
+            currentWeatherService.getWeatherForLatLng(
+                any(),
+                any()
+            )
+        } returns ApiResult.Success(
+            mockk(),
+            200
+        )
+
+        val result = subject.getWeather(input, input)
+        expectThat(result).isA<RepositoryResult.Success<CityWeatherInformation>>()
+
+        coVerify { currentWeatherService.getWeatherForLatLng(input, input) }
+        coVerify { cachedWeatherInfoService.save(any()) }
     }
 }
