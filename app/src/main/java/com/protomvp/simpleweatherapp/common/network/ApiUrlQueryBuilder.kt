@@ -18,6 +18,6 @@ class ApiUrlQueryBuilder @Inject constructor(
     ): String =
         "?q=$city&units=${units.key}&appid=${apiKeyProvider.provide()}"
 
-    fun createLatLngUrl(lat: String, lon: String): String =
-        "?lat=${lat}&lon=${lon}&appid=${apiKeyProvider.provide()}"
+    fun createLatLngUrl(lat: String, lon: String, units: Units = Units.METRIC): String =
+        "?lat=${lat}&lon=${lon}&units=${units.key}&appid=${apiKeyProvider.provide()}"
 }

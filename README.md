@@ -16,12 +16,6 @@
 
 - Dark theme support
 
-
-- ### Known issues
-  - The web request for lat,lon when the app starts, returns some crazy numbers. I have checked this
-    more than once. e.g. returning 239 degrees C, or something similar. There is nothing wrong with
-    the data manipulation, it is just the web response.
-
 ## Tech Stack
 
 - Android Views, and JetPack Compose. Assembled in a way that would fit in an existing application
