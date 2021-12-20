@@ -1,6 +1,6 @@
 # SimpleWeatherApp
 
-## Introduction
+## Introduction to features of the app
 
 - Sample app showing weather details for a given city
 
@@ -11,6 +11,8 @@
 - The app is showing results using the current location on start up
 
 - Full weather details are shown when a successful search has completed
+
+- The app is storing locally the last search result, and showing it in case of no network connection
 
 ## Tech Stack
 
