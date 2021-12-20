@@ -35,7 +35,6 @@ fun WeatherCard(information: CityWeatherInformation?, addFavourite: (String) -> 
     if (information == null)
         return
     Card(
-        backgroundColor = Color.White,
         modifier = Modifier
             .fillMaxSize()
             .padding(AppTheme.dimensions.paddingSmall),
