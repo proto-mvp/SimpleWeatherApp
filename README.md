@@ -14,6 +14,8 @@
 
 - The app is storing locally the last search result, and showing it in case of no network connection
 
+- Dark theme support
+
 
 - ### Known issues
   - The web request for lat,lon when the app starts, returns some crazy numbers. I have checked this
@@ -74,7 +76,7 @@
 
 - There is a thought of detekt but not applied, given the time allocated for this project
 
-- Built in Dark theme support from Jetpack Compose. However to make it right, there would be a need
-  to refine the colours of the app.
+- Built in Dark theme support from Jetpack Compose. However to make it 100% right, there would be a
+  need to refine the colours of the app.
 
 - Some UI tests would be easy to add
