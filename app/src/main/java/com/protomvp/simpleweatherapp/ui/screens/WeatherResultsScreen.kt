@@ -45,12 +45,13 @@ fun WeatherResultsScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         when (state) {
-            WeatherInformationState.FailedGettingResults -> Text(text = "Something went wrong")
+            WeatherInformationState.FailedGettingResults -> Text(text = "Something went wrong getting results")
 
             WeatherInformationState.Introduction -> Text(text = "Type a city name")
             is WeatherInformationState.ScreenInfo -> WeatherCard(
                 information = state.presentationModel.cityWeatherInformation,
                 addFavourite = { addFavouriteAction(it) })
+            WeatherInformationState.FailedOnFavouritesAction -> Text(text = "Something went wrong adding as favourite")
         }
         ShowAppMessage(sideEffect)
     }

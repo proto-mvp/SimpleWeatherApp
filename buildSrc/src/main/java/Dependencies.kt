@@ -84,6 +84,8 @@ object ComposeLibs {
     const val UI_TOOLING = "androidx.compose.ui:ui-tooling:1.0.5"
     const val VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
     const val UI_TEST = "androidx.compose.ui:ui-test-junit4:1.0.1"
+    const val UI_TEST_DEBUG = "androidx.compose.ui:ui-test-manifest:1.0.5"
+
     const val MATERIAL_THEME_ADAPTER = "com.google.android.material:compose-theme-adapter:1.0.5"
     const val APPCOMPAT_THEME_ADAPTER = "com.google.accompanist:accompanist-appcompat-theme:0.16.0"
     const val COIL = "io.coil-kt:coil-compose:1.4.0"

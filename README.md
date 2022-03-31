@@ -2,7 +2,7 @@
 
 ## Introduction to features of the app
 
-- Sample app showing weather details for a given city
+- Sample app showing weather details for a given city using data from http://openweathermap.org API
 
 - A user can type the name of a city
 
@@ -62,7 +62,7 @@
 
 - Since this is a demo, it is not 100% test covered, but many of the core components are well tested
 
-- UI Test is easy to add with the current set up as well
+- UI Tests using Robot pattern
 
 ## Extensibility
 
@@ -72,5 +72,4 @@
 
 - Built in Dark theme support from Jetpack Compose. However to make it 100% right, there would be a
   need to refine the colours of the app.
-
-- Some UI tests would be easy to add
+  
